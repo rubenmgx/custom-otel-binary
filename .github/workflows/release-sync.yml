@@ -1,9 +1,8 @@
-name: Update release version.
 on:
-  release:
-    types: [published]
   schedule:
   - cron:  "*/5 * * * *"
+  release:
+    types: [published]
 
 jobs:
   update-version:
