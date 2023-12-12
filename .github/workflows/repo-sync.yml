@@ -17,6 +17,5 @@ jobs:
         source_branch: "*"
         destination_branch: "*"
         sync_tags: "true"
-        sync_releases: "true"
         github_token: ${{ secrets.PAT }}
         
