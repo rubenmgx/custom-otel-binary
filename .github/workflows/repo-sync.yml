@@ -14,8 +14,8 @@ jobs:
       uses: repo-sync/github-sync@v2
       with:
         source_repo: "https://github.com/rubenmgx/Upstream.git"
-        source_branch: "main"
-        destination_branch: "main"
+        source_branch: "release/*"
+        destination_branch: "release/*"
         sync_tags: "true"
         github_token: ${{ secrets.PAT }}
         
