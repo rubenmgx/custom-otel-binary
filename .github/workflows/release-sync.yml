@@ -1,0 +1,21 @@
+name: Update release version.
+on:
+  release:
+    types: [published]
+
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+ 
+      - name: Sync release version.
+        uses: tj-actions/sync-release-version@v13
+        id: sync-release-version
+        with:
+          pattern: 'tj-actions/sync-release-version@'
+          paths: |
+            README.md
