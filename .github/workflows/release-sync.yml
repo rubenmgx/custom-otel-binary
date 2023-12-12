@@ -17,8 +17,6 @@ jobs:
         id: sync-release-version
         with:
           pattern: 'tj-actions/sync-release-version@'
-          paths: |
-            README.md
  
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
