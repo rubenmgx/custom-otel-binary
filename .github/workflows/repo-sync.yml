@@ -1,6 +1,8 @@
 on:
   schedule:
   - cron:  "*/5 * * * *"
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -19,3 +21,17 @@ jobs:
         sync_tags: "true"
         github_token: ${{ secrets.PAT }}
         
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+ 
+      - name: Sync release version.
+        uses: tj-actions/sync-release-version@v13
+        id: sync-release-version
+        with:
+          pattern: 'tj-actions/sync-release-version@'
+          paths: |
+            README.md
