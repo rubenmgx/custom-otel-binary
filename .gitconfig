@@ -1,3 +1,7 @@
 [user]
 name = rubenmgx
 email = ruben.mgx@gmail.com
+
+[remote "origin"]
+
+url = https://ruben@github.com/rubenmgx/midstream.git
