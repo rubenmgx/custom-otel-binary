@@ -13,7 +13,7 @@ jobs:
     - name: repo-sync
       uses: repo-sync/github-sync@v2
       with:
-        source_repo: "https://github.com/rubenmgx/Upstream.git"
+        source_repo: "git@github.com:rubenmgx/Upstream.git"
         source_branch: "*"
         destination_branch: "*"
         sync_tags: "true"
