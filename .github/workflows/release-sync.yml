@@ -3,7 +3,7 @@ on:
   - cron:  "*/5 * * * *"
   release:
     types: [published]
-
+    
 jobs:
   update-version:
     runs-on: ubuntu-latest
@@ -19,3 +19,12 @@ jobs:
           pattern: 'tj-actions/sync-release-version@'
           paths: |
             README.md
+ 
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: "main"
+          title: "Upgraded to ${{ steps.sync-release-version.outputs.new_version }}"
+          branch: "upgrade-to-${{ steps.sync-release-version.outputs.new_version }}"
+          commit-message: "Upgraded from ${{ steps.sync-release-version.outputs.old_version }} -> ${{ steps.sync-release-version.outputs.new_version }}"
+          body: "View [CHANGES](https://github.com/${{ github.repository }}/compare/${{ steps.sync-release-version.outputs.old_version }}...${{ steps.sync-release-version.outputs.new_version }})"
