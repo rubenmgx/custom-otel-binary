@@ -19,7 +19,7 @@ jobs:
         sync_tags: "true"
         github_token: ${{ secrets.PAT }}
     - name: repo-sync
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
       with:      
         run: |
          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
