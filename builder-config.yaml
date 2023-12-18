@@ -1,6 +1,6 @@
 dist:
   name: otel-collector-image
-  description: Custom OTel collector image build
+  description: Custom OTel collector image
   output_path: ./otel-collector-image
   otelcol_version: 0.88.0
 receivers:
