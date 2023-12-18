@@ -1,0 +1,1 @@
+[![Build Otel Image](https://github.com/rubenmgx/midstream/actions/workflows/image-build.yml/badge.svg)](https://github.com/rubenmgx/midstream/actions/workflows/image-build.yml)
