@@ -1,8 +1,7 @@
 name: Build Custom Otel Image
 
 on:
-  push:
-    branches: [ main ]
+  pull_request:
 
 jobs:
   image-build-and-push:
@@ -23,13 +22,3 @@ jobs:
         tags: latest ${{ github.sha }}
         containerfiles: |
           ./Dockerfile
-
-    - name: Push To quay.io
-      id: push-to-quay
-      uses: redhat-actions/push-to-registry@v2
-      with:
-        image: ${{ steps.build-image.outputs.image }}
-        tags: ${{ steps.build-image.outputs.tags }}
-        registry: quay.io/rugomez
-        username: ${{ secrets.QUAY_BOT_USER }}
-        password: ${{ secrets.QUAY_BOT_PASSWORD }}
