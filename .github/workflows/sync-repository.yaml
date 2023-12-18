@@ -3,7 +3,7 @@ name: Sync Upstream with Midstream repository
 on:
   push:
     branches:
-      - releases/*
+      - "releases/*"
 
 #  schedule:
 #  - cron:  "*/5 * * * *"
