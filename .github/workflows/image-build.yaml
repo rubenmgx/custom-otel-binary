@@ -13,7 +13,9 @@ jobs:
         persist-credentials: false
 
     - name: OCB Build
-        run: chmod +x ${GITHUB_WORKSPACE}/builder.sh && ${GITHUB_WORKSPACE}/builder.sh
+      run: |
+        chmod +x ${GITHUB_WORKSPACE}/builder.sh
+        ${GITHUB_WORKSPACE}/builder.sh
 
     - name: Buildah Build
       id: build-image
