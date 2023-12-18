@@ -1,32 +1,21 @@
 name: Build Otel Image
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [ main ]
 
 #  schedule:
 #  - cron:  "*/5 * * * *"
 #  workflow_dispatch:
 
 jobs:
-  repo-sync:
+  image-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         persist-credentials: false
-    - name: repo-sync
-      uses: repo-sync/github-sync@v2
-      with:
-        source_repo: "https://github.com/rubenmgx/Upstream.git"
-        source_branch: "release/*"
-        destination_branch: "release/*"
-        sync_tags: "true"
-        github_token: ${{ secrets.PAT }}
 
-  image-build:
-    runs-on: ubuntu-latest
-    steps:
     - name: Buildah Build
       id: build-image
       uses: redhat-actions/buildah-build@v2
