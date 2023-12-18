@@ -18,25 +18,11 @@ jobs:
         destination_branch: "release/*"
         sync_tags: "true"
         github_token: ${{ secrets.PAT }}
-    - name: release-sync
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
     - name: Sync release version.
       uses: tj-actions/sync-release-version@v13
+      id: sync-release-version
       with:
-        pattern: 'version='
-        current_version: '1.0.1'  # Omit this to use git tag.
-        new_version: '1.0.2'  # Omit this to use git tag.
+        pattern: 'tj-actions/sync-release-version@'
         paths: |
           README.md
-          test/subdir/README.md
-        run: |
-          echo "Upgraded from ${{ steps.sync-release-version.outputs.old_version }} -> ${{ steps.sync-release-version.outputs.new_version }}" 
-    - name: Create tag artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{github.ref_name}}
-        path: Release
-          
