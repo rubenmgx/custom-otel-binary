@@ -1,12 +1,8 @@
-name: Update release version.
+
 on:
-  release:
-    types: [published]
-    
-#on:
-#  schedule:
-#  - cron:  "*/5 * * * *"
-#  workflow_dispatch:
+  schedule:
+  - cron:  "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   repo-sync:
@@ -24,20 +20,21 @@ jobs:
         sync_tags: "true"
         github_token: ${{ secrets.PAT }}
 
-    - name: Sync release version.
-      uses: tj-actions/sync-release-version@v13
-      id: sync-release-version
+    - name: Buildah Build
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
       with:
-        pattern: 'tj-actions/sync-release-version@'
-        paths: |
-          README.md
+        image: rubenmgx
+        tags: latest ${{ github.sha }}
+        containerfiles: |
+          ./Dockerfile
 
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v3
+    - name: Push To quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
       with:
-        base: "main"
-        title: "Upgraded to ${{ steps.sync-release-version.outputs.new_version }}"
-        branch: "upgrade-to-${{ steps.sync-release-version.outputs.new_version }}"
-        commit-message: "Upgraded from ${{ steps.sync-release-version.outputs.old_version }} -> ${{ steps.sync-release-version.outputs.new_version }}"
-        body: "View [CHANGES](https://github.com/${{ github.repository }}/compare/${{ steps.sync-release-version.outputs.old_version }}...${{ steps.sync-release-version.outputs.new_version }})"
-        reviewers: "rubenmgx"
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: quay.io/jdcasey
+        username: ${{ secrets.QUAY_BOT_USER }}
+        password: ${{ secrets.QUAY_BOT_PASSWORD }}
