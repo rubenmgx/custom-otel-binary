@@ -1,7 +1,12 @@
+name: Update release version.
 on:
-  schedule:
-  - cron:  "*/5 * * * *"
-  workflow_dispatch:
+  release:
+    types: [published]
+    
+#on:
+#  schedule:
+#  - cron:  "*/5 * * * *"
+#  workflow_dispatch:
 
 jobs:
   repo-sync:
