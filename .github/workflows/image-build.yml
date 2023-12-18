@@ -1,4 +1,4 @@
-name: Build Otel Image
+name: Build Custom Otel Image
 
 on:
   push:
