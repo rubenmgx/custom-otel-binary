@@ -2,7 +2,7 @@ name: Build Otel Image
 
 on:
   push:
-    branches: [ image-build ]
+    branches: [ main ]
 
 #  schedule:
 #  - cron:  "*/5 * * * *"
