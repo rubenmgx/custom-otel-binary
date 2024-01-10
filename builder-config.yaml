@@ -1,19 +1,48 @@
 dist:
   name: otel-collector-image
-  description: Custom OTel collector image
+  description: custom OTel collector image
   output_path: ./otel-collector-image
   otelcol_version: 0.91.0
+
 receivers:
   - gomod:
       go.opentelemetry.io/collector/receiver/otlpreceiver v0.91.0
   - gomod:
       github.com/open-telemetry/opentelemetry-collector-contrib/receiver/httpcheckreceiver v0.91.0
 
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+          max_recv_msg_size_mib: 999999999
+        http:
+          endpoint: 0.0.0.0:4318
+    otlp/dev:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4319
+          max_recv_msg_size_mib: 999999999
+        http:
+          endpoint: 0.0.0.0:4320
+    otlp/stage:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4321
+          max_recv_msg_size_mib: 999999999
+        http:
+          endpoint: 0.0.0.0:4322
+
 processors:
   - gomod:
       go.opentelemetry.io/collector/processor/batchprocessor v0.91.0
   - gomod:
      go.opentelemetry.io/collector/processor/memorylimiterprocessor v0.91.0
+    processors:
+        batch: {}
+        memory_limiter:
+          check_interval: 2s
+          limit_mib: 512
+          spike_limit_percentage: 128
 
 exporters:
   - gomod:
@@ -24,3 +53,20 @@ exporters:
       go.opentelemetry.io/collector/exporter/otlphttpexporter v0.91.0
   - gomod:
       github.com/open-telemetry/opentelemetry-collector-contrib/exporter/signalfxexporter v0.91.0
+    exporters:
+        otlphttp:
+          endpoint: https://api.honeycomb.io
+          headers:
+            x-honeycomb-team: kLP59PHzsKlgtldbMwg6kA
+
+    extensions:
+        health_check: {}
+        memory_ballast: {}
+
+    service:
+        extensions: [health_check, memory_ballast]
+        pipelines:
+          traces:
+            receivers: [otlp]
+            processors: [batch, memory_limiter]
+            exporters: [otlphttp]
